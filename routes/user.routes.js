@@ -6,4 +6,7 @@ module.exports = (app) => {
 
     // Show All Users Registered
     app.get('/allusers',user.showAll);
+
+    // Find Specific login details
+    app.post('/login', user.login);
 }

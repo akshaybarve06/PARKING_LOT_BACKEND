@@ -25,3 +25,11 @@ exports.register = (req, res) => {
 exports.showAll=(req, res)=>{
     User.showAll(req, res)
 }
+// Check Login credentials
+exports.login = (req, res)=>{
+    User.login(req.body.email, req.body.password, result=>{
+        if(result){
+            return res.json({ message: result})
+        }
+    });
+};
