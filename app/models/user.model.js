@@ -31,5 +31,15 @@ User.register=function(user, req, res, callback)
         callback(err)
     })
 }
-
+// Method To Show All users registered 
+User.showAll=(req,res) => {
+    User.find()
+        .then(users =>{
+            res.send(users)
+        }).catch(err =>{
+            res.status(500).send({
+            message: err.message || "Sorry..Couldn't Finding All Users.."
+        })
+    })
+}
 module.exports=User;
