@@ -20,3 +20,8 @@ exports.register = (req, res) => {
         }
     })
 };
+
+// Show All Registered Users
+exports.showAll=(req, res)=>{
+    User.showAll(req, res)
+}
