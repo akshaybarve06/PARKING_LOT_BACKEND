@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 // Require User routes
-require('./routes/user.routes')(app);
+require('./.vscode/routes/user.routes')(app);
 
 // listen for requests
 app.listen(port, () => {
