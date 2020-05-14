@@ -5,13 +5,23 @@ const UserSchema = mongoose.Schema({
         type: String
     },
     phone:{
-        type:String
+        type:String,
+        validate: function(phone) {
+            return /^[0-9]*$/.test(phone)
+        },
+        unique: true     
     },
     email:{
-        type:String
+        type:String,
+        validate: function(email) {
+            return /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)
+        },
+        required: true,
+        unique: true
     },
     password : {
-        type: String
+        type: String,
+        required : true
     }
 }, {
     timestamps: true
