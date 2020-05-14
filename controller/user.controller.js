@@ -20,16 +20,3 @@ exports.register = (req, res) => {
         }
     })
 };
-// Register New User
-User.register=function(user, req, res, callback)
-{
-    user.save()
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Sorry..Couldn't register user."
-        });
-        callback(err)
-    })
-}
