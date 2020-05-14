@@ -42,4 +42,23 @@ User.showAll=(req,res) => {
         })
     })
 }
+// Login method to Check cresetials of input user
+User.login=function(email,password,callback){
+    User.findOne({email: email},(err, user)=>{
+        if(err){
+            console.log(err)
+            callback('Server Error');
+        }else if(user==undefined){
+                callback('Sorry..User Not Found');
+            }
+            else {
+                if (password==user.password){
+                    callback('Login Successful')
+                }
+                else {
+                    callback('Login Info Incorrect')
+                }
+            }
+    })
+}
 module.exports=User;
