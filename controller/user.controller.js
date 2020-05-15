@@ -1,4 +1,6 @@
 const User = require('../app/models/user.model');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // Create and Save a new User
 exports.register = (req, res) => {
@@ -8,10 +10,12 @@ exports.register = (req, res) => {
             message: "email can not be empty"
         });
     }
-   // Create a New User
+    // Encrypting Password
+    encryptedPassword = bcrypt.hashSync(req.body.password,saltRounds)
+    // Create a New User
     const user = new User({
         name:req.body.name || "Unnamed User",
-        phone:req.body.phone, email:req.body.email, password:req.body.password
+        phone:req.body.phone, email:req.body.email, password:encryptedPassword
     });
     // Method To Save / Register User
     User.register(user, req, res, result=>{
@@ -20,7 +24,6 @@ exports.register = (req, res) => {
         }
     })
 };
-
 // Show All Registered Users
 exports.showAll=(req, res)=>{
     User.showAll(req, res)
@@ -29,7 +32,7 @@ exports.showAll=(req, res)=>{
 exports.login = (req, res)=>{
     User.login(req.body.email, req.body.password, result=>{
         if(result){
-            return res.json({ message: result})
+            return res.json({ result})
         }
     });
 };

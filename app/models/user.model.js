@@ -1,15 +1,19 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt= require('jsonwebtoken')
 
 const UserSchema = mongoose.Schema({
     name:{
-        type: String
+        type: String,
+        allowNull: false,
+        required: true
     },
     phone:{
         type:String,
         validate: function(phone) {
             return /^[0-9]*$/.test(phone)
         },
-        unique: true     
+        isUnique : true
     },
     email:{
         type:String,
@@ -17,10 +21,12 @@ const UserSchema = mongoose.Schema({
             return /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)
         },
         required: true,
-        unique: true
+        isUnique: true
     },
     password : {
         type: String,
+        allowNull: false,
+        len: [2, 10],
         required : true
     }
 }, {
@@ -62,13 +68,17 @@ User.login=function(email,password,callback){
                 callback('Sorry..User Not Found');
             }
             else {
-                if (password==user.password){
-                    callback('Login Successful')
+                bcrypt.compare(password,user.password,(err,result)=>{
+                if(result){
+                    var token = jwt.sign({userID: user.id}, 'app-super-secret', {expiresIn: '2h'});
+                    callback({meaasge:'Login Successfull',token:token})
                 }
                 else {
                     callback('Login Info Incorrect')
                 }
-            }
-    })
+            })
+        }
+    });
+
 }
 module.exports=User;
