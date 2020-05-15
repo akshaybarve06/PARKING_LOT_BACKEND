@@ -5,6 +5,7 @@ const jwt= require('jsonwebtoken')
 const UserSchema = mongoose.Schema({
     name:{
         type: String,
+        is: ["^[a-z]+$",'i'],
         allowNull: false,
         required: true
     },
@@ -70,7 +71,7 @@ User.login=function(email,password,callback){
             else {
                 bcrypt.compare(password,user.password,(err,result)=>{
                 if(result){
-                    var token = jwt.sign({userID: user.id}, 'app-super-secret', {expiresIn: '2h'});
+                    var token = jwt.sign({password: user.password}, 'app-super-secret', {expiresIn: '2h'});
                     callback({meaasge:'Login Successfull',token:token})
                 }
                 else {
@@ -79,6 +80,5 @@ User.login=function(email,password,callback){
             })
         }
     });
-
 }
 module.exports=User;
