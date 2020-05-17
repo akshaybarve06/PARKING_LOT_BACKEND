@@ -38,8 +38,8 @@ describe(`API Test Cases..`, ()=>
                     chai.expect(res.body.message).to.equal("Please Enter Valid Details")
                 })
         })
-        // TC 1.2 if new User password is not valid then not added to database and return error
-        it.only(`given new user password invalid if not added in database should return error`, ()=>{
+        // TC 1.3 if new User password is not valid then not added to database and return error
+        it(`given new user password invalid if not added in database should return error`, ()=>{
             let newUser={
                 name:"F", phone:"1234567890",
                 email:"ff@gmail.com", password:"ffff"
@@ -50,6 +50,20 @@ describe(`API Test Cases..`, ()=>
                 .end((err, res)=>{
                     res.should.have.status(400);
                     chai.expect(res.body.message).to.equal("Please Enter Valid Details")
+                })
+        })
+
+    })
+    // Test Cases For Get User Details
+    describe(`GET /allusers/`,()=>
+    {
+        // TC 2.1 if all Users stored in database then treurn status 200
+        it.only(`given method get all users if get all users should return status 200 and in Array Form`, ()=>{
+            chai.request(server)
+                .get("/allusers")
+                .end((err, res)=>{
+                    res.should.have.status(200);
+                    res.body.should.be.a('array')
                 })
         })
     })
