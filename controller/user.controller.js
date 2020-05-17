@@ -6,6 +6,12 @@ const saltRounds = 10;
 // Create and Save a new User
 exports.register = (req,res) => {
 
+    // Validate Email
+    if(!req.body.email) {
+        return res.status(400).send({
+            message: "Email can not be empty"
+        });
+    }
     // Encryption of password
     let encryptedPassword=bcrypt.hashSync(req.body.password,saltRounds);
 
