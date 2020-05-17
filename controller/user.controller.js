@@ -1,17 +1,18 @@
 const service = require('../service/user.service');
 const User = require('../app/models/user.model');
+const validateUser=require('../app/models/user.model')
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 // Create and Save a new User
 exports.register = (req,res) => {
 
-    // Validate Email
-    if(!req.body.email) {
+    const result=validateUser.validate(req.body)
+    if (result) {
         return res.status(400).send({
-            message: "Email can not be empty"
-        });
-    }
+            message: "Please Enter Valid Details"
+        })
+    }    
     // Encryption of password
     let encryptedPassword=bcrypt.hashSync(req.body.password,saltRounds);
 

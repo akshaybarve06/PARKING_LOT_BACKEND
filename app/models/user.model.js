@@ -1,40 +1,40 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt= require('jsonwebtoken')
+const Joi=require('joi')
 
 const UserSchema = mongoose.Schema({
     // User Schema To Add Details of User and Validate Details
     name:{
-        type: String,
-        is: ["^[a-z]+$",'i'],
-        allowNull: false,
-        required: true
+        type: String 
     },
     phone:{
-        type:String,
-        validate: function(phone) {
-            return /^[0-9]*$/.test(phone)
-        },
-        isUnique : true
+        type:String
     },
     email:{
         type:String,
-        validate: function(email) {
-            return /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)
-        },
-        required: true,
-        isUnique: true
+        required: true
     },
     password : {
         type: String,
-        allowNull: false,
-        len: [2, 10],
         required : true
     }
 }, {
     timestamps: true
 });
 var User=mongoose.model('User', UserSchema);
+
+// Method To Validate User Details
+User.validate=function(user)
+{
+    const validations = {
+        name: Joi.string().alphanum().min(1).max(50).required(),
+        phone: Joi.string().min(10).max(10).required(),
+        email: Joi.string().min(2).max(40).required().email().regex(/^[a-zA-Z0-9_.+-]+@[a-zA-Z]+\.[a-zA-Z]+$/),
+        password: Joi.string().min(8).max(100).required().regex(/^[a-zA-Z0-9]{3,30}$/)
+    }
+    return Joi.validate(user, validations);
+}
 
 // Register New User
 User.register=function(user,callback)
