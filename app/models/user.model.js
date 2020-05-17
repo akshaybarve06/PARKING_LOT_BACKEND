@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const jwt= require('jsonwebtoken')
 
 const UserSchema = mongoose.Schema({
+    // User Schema To Add Details of User and Validate Details
     name:{
         type: String,
         is: ["^[a-z]+$",'i'],
@@ -36,18 +37,16 @@ const UserSchema = mongoose.Schema({
 var User=mongoose.model('User', UserSchema);
 
 // Register New User
-User.register=function(user, req, res, callback)
+User.register=function(user,callback)
 {
     user.save()
     .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Sorry..Couldn't register user."
-        });
+        callback(data)
+    }).catch(err =>{
         callback(err)
     })
 }
+
 // Method To Show All users registered 
 User.showAll=(req,res) => {
     User.find()

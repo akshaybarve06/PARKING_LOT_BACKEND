@@ -1,33 +1,39 @@
 const service = require('../service/user.service');
 const User = require('../app/models/user.model');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 // Create and Save a new User
-exports.register = (req, res) => {
+exports.register = (req,res) => {
 
-    // Encrypting Password
-    encryptedPassword = bcrypt.hash(req.body.password,saltRounds)
-    // Create a New User
-    const user = new User({
-        name:req.body.name || "Unnamed User",
-        phone:req.body.phone, email:req.body.email, password:encryptedPassword
-    });
+    // Encryption of password
+    let encryptedPassword=bcrypt.hashSync(req.body.password,saltRounds);
 
-    // Method To Save / Register User
-    service.register(user,req, res, result=>{
+    let user=new User({
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        password: encryptedPassword
+    })
+    // Redirect to service layer
+    service.register(user,(result,err)=>{
         if(result){
-            return res.json({ message: result})
+            res.status(200).json(result)
+        }else{
+            res.status(500).json(err)
         }
     })
-};
+}
 // Show All Registered Users
-exports.showAll=(req, res)=>{
+exports.showAll=(req, res)=>
+{
     service.showAll(req, res)
 }
 // Check Login credentials
-exports.login = (req, res)=>{
-    service.login(req,res,result=>{
+exports.login = (req, res)=>
+{
+    service.login(req,res,result=>
+        {
         if(result){
             return res.json(result)
         }

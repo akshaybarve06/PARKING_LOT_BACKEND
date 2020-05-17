@@ -2,12 +2,18 @@ module.exports = (app) => {
 
     const user = require('../controller/user.controller');
 
-    // Create a new Note
-    app.post('/register', user.register);
+    // Register a new User
+    app.post('/register', function(req, res){
+        user.register(req,res);
+    });
 
     // Show All Users Registered
-    app.get('/allusers',user.showAll);
+    app.get('/allusers',function(req, res){
+        user.showAll(req,res);
+    });
 
     // Find Specific login details
-    app.post('/login', user.login);
+    app.post('/login', function(req, res){
+        user.login(req,res);
+    });
 }
