@@ -65,16 +65,16 @@ User.login=function(email,password,callback){
             console.log(err)
             callback('Server Error');
         }else if(user==undefined){
-                callback('Sorry..User Not Found');
+                callback( {message:'Sorry..User Not Found'});
             }
             else {
                 bcrypt.compare(password,user.password,(err,result)=>{
                 if(result){
                     var token = jwt.sign({password: user.password}, 'app-super-secret', {expiresIn: '2h'});
-                    callback({meaasge:'Login Successfull',token:token})
+                    callback({message:'Login Successfull',token:token})
                 }
                 else {
-                    callback('Login Info Incorrect')
+                    callback({message:'Login Info Incorrect'})
                 }
             })
         }

@@ -91,5 +91,18 @@ describe(`API Test Cases..`, ()=>
                     res.body.should.be.a('object')
                 })
             })
+        // TC 3.2 if User email correct then login and return status 200 
+        it(`given new user email for login when invalid should return error`, ()=>{
+            let newUser={
+                email:"@gmail.com", password:"e@123456"
+            }
+            chai.request(server)
+                .post("/login")
+                .send(newUser)
+                .end((err, res)=>{
+                    res.should.have.status(200);
+                    chai.expect(res.body.message).to.equal("Sorry..User Not Found")
+                })
+            })
     })
 })
