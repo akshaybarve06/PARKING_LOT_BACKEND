@@ -91,8 +91,8 @@ describe(`API Test Cases..`, ()=>
                     res.body.should.be.a('object')
                 })
             })
-        // TC 3.2 if User email correct then login and return status 200 
-        it(`given new user email for login when invalid should return error`, ()=>{
+        // TC 3.2 if User email incorrect then login failed and return status 200 
+        it(`given user email for login when invalid should return error with status 200`, ()=>{
             let newUser={
                 email:"@gmail.com", password:"e@123456"
             }
