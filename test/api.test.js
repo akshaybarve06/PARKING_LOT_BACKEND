@@ -104,5 +104,18 @@ describe(`API Test Cases..`, ()=>
                     chai.expect(res.body.message).to.equal("Sorry..User Not Found")
                 })
             })
+        // TC 3.3 if User password incorrect then login failed 
+        it(`given new user password for login when invalid should return error with status 200`, ()=>{
+            let newUser={
+                email:"ee@gmail.com", password:"123456"
+            }
+            chai.request(server)
+                .post("/login")
+                .send(newUser)
+                .end((err, res)=>{
+                    res.should.have.status(200);
+                    chai.expect(res.body.message).to.equal("Login Info Incorrect")
+                })
+            })
     })
 })
