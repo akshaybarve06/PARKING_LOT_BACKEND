@@ -28,10 +28,10 @@ var User=mongoose.model('User', UserSchema);
 User.validate=function(user)
 {
     const validations = {
-        name: Joi.string().alphanum().min(1).max(50).required(),
-        phone: Joi.string().min(10).max(10).required(),
-        email: Joi.string().min(2).max(40).required().email().regex(/^[a-zA-Z0-9_.+-]+@[a-zA-Z]+\.[a-zA-Z]+$/),
-        password: Joi.string().min(8).max(100).required().regex(/^[a-zA-Z0-9]{3,30}$/)
+        name: Joi.string().alphanum().min(1).max(50),
+        phone: Joi.string().min(10).max(10),
+        email: Joi.string().min(2).max(40).email().regex(/^[a-zA-Z0-9_.+-]+@[a-zA-Z]+\.[a-zA-Z]+$/),
+        password: Joi.string().min(8).max(100).regex(/^[a-zA-Z0-9]{3,30}$/)
     }
     return Joi.validate(user, validations);
 }

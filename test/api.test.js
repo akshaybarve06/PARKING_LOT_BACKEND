@@ -11,7 +11,7 @@ describe(`API Test Cases..`, ()=>
     describe(`POST /register/`,()=>
     {
         // TC 1.1 if new User added to database then it return status 200 
-        it(`given new user valid if added in database should return status 200`, ()=>{
+        it.skip(`given new user valid if added in database should return status 200`, ()=>{
             let newUser={
                 name:"D", phone:"1234567890",
                 email:"dd@gmail.com", password:"d@123456"
@@ -66,13 +66,30 @@ describe(`API Test Cases..`, ()=>
                     res.body.should.be.a('array')
                 })
         })
-        // TC 2.2 if all Users stored in database then return status 404
-        it.only(`given method get all users if didnt get all users should return status 404 and in Array Form`, ()=>{
+        // TC 2.2 if didnt get all Users stored in database then return status 404
+        it(`given method get all user if didnt get all users should return status 404`, ()=>{
             chai.request(server)
                 .get("/alluser")
                 .end((err, res)=>{
                     res.should.have.status(404);
                 })
         })
+    })
+    // Test Cases For Login With User Details
+    describe(`POST /login/`,()=>
+    {
+        // TC 3.1 if User details correct then login and return status 200 
+        it(`given new user details for login when valid should return status 200`, ()=>{
+            let newUser={
+                email:"dd@gmail.com", password:"d@123456"
+            }
+            chai.request(server)
+                .post("/login")
+                .send(newUser)
+                .end((err, res)=>{
+                    res.should.have.status(200);
+                    res.body.should.be.a('object')
+                })
+            })
     })
 })

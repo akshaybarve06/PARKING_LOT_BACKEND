@@ -1,13 +1,12 @@
 const service = require('../service/user.service');
 const User = require('../app/models/user.model');
-const validateUser=require('../app/models/user.model')
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 // Create and Save a new User
 exports.register = (req,res) => {
 
-    const result=validateUser.validate(req.body)
+    const result=User.validate(req.body)
     if (result) {
         return res.status(400).send({
             message: "Please Enter Valid Details"
