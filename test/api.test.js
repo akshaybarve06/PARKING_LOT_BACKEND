@@ -57,13 +57,21 @@ describe(`API Test Cases..`, ()=>
     // Test Cases For Get User Details
     describe(`GET /allusers/`,()=>
     {
-        // TC 2.1 if all Users stored in database then treurn status 200
-        it.only(`given method get all users if get all users should return status 200 and in Array Form`, ()=>{
+        // TC 2.1 if all Users stored in database then return status 200
+        it(`given method get all users if get all users should return status 200 and in Array Form`, ()=>{
             chai.request(server)
                 .get("/allusers")
                 .end((err, res)=>{
                     res.should.have.status(200);
                     res.body.should.be.a('array')
+                })
+        })
+        // TC 2.2 if all Users stored in database then return status 404
+        it.only(`given method get all users if didnt get all users should return status 404 and in Array Form`, ()=>{
+            chai.request(server)
+                .get("/alluser")
+                .end((err, res)=>{
+                    res.should.have.status(404);
                 })
         })
     })
